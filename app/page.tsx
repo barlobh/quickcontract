@@ -22,6 +22,42 @@ const faqs = [
   },
 ];
 
+const checkoutLinks = {
+  perContract:
+    process.env.NEXT_PUBLIC_STRIPE_LINK_PER_CONTRACT ||
+    "mailto:hello@instantcontracts.ai?subject=Buy%20a%20contract",
+  lifetime:
+    process.env.NEXT_PUBLIC_STRIPE_LINK_LIFETIME ||
+    "mailto:hello@instantcontracts.ai?subject=Lifetime%20access",
+};
+
+const pricing = [
+  {
+    name: "Pay-per-contract",
+    price: "$10",
+    cadence: "per contract",
+    cta: "Buy a contract",
+    link: checkoutLinks.perContract,
+    highlights: [
+      "Single NDA/MSA/SOW export",
+      "AI draft with human-in-the-loop edits",
+      "PDF + DOCX download",
+    ],
+  },
+  {
+    name: "Lifetime access",
+    price: "$49.99",
+    cadence: "one-time",
+    cta: "Get lifetime access",
+    link: checkoutLinks.lifetime,
+    highlights: [
+      "Unlimited contracts forever",
+      "Clause locks and redlines",
+      "Audit-ready exports + change history",
+    ],
+  },
+];
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-950 to-black text-white">
@@ -248,6 +284,61 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-emerald-500/10">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-200">
+                Pricing built to convert today
+              </p>
+              <h2 className="mt-2 text-2xl font-bold text-white">
+                Ship your contract now—pay once or unlock lifetime.
+              </h2>
+              <p className="mt-2 text-sm text-white/75">
+                Stripe checkout ready. Pick the option that fits: $10 per contract or $49.99 for unlimited contracts forever.
+              </p>
+            </div>
+            <a
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-slate-900 shadow-md shadow-emerald-500/30 transition hover:translate-y-[-1px] hover:bg-emerald-400"
+              href="#pricing"
+            >
+              Choose a plan
+            </a>
+          </div>
+          <div
+            id="pricing"
+            className="mt-6 grid gap-4 sm:grid-cols-2"
+          >
+            {pricing.map((plan) => (
+              <div
+                key={plan.name}
+                className="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-inner shadow-black/30"
+              >
+                <p className="text-sm font-semibold text-emerald-200">{plan.name}</p>
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-3xl font-bold text-white">{plan.price}</span>
+                  <span className="text-sm text-white/60">{plan.cadence}</span>
+                </div>
+                <ul className="mt-3 grid gap-2 text-sm text-white/80">
+                  {plan.highlights.map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={plan.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white"
+                >
+                  {plan.cta}
+                </a>
+              </div>
+            ))}
           </div>
         </section>
 
